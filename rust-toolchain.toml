@@ -1,0 +1,14 @@
+# Rust toolchain used in this project.
+# This ensures that everyone working in this project
+# has the same version and Rust components
+# https://rust-lang.github.io/rustup/overrides.html#the-toolchain-file
+#
+# This file is not typically included for desktop Rust
+# projects working on the stable channel, as it's often assumed
+# developers are on the latest "stable" with "default" components.
+[toolchain]
+# stable version 1.73.0 - nightly or beta have prefixes as well as the version/date
+channel = "1.73.0"
+# group of components to add, e.g. clippy (linter), rustfmt (formatter), cargo...
+# https://rust-lang.github.io/rustup/concepts/profiles.html
+profile = "default"

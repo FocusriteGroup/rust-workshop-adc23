@@ -1,0 +1,23 @@
+[package]
+# name of the project, this will also be the name of the app/library binary
+name = "cli"
+# Version of this crate / project
+version = "0.1.0"
+# Rust editions are introduced every 3 years (as opposed to the 6 week version release train)
+# https://doc.rust-lang.org/edition-guide/editions/
+edition = "2021"
+# Minimum Supported Rust Version - found using cargo-msrv
+# https://github.com/foresterre/cargo-msrv
+rust-version = "1.70.0"
+# Most of the eco-system uses a dual ASL2 / MIT licence
+# https://github.com/dtolnay/rust-faq#why-a-dual-mitasl2-license
+license = "MIT OR Apache-2.0"
+
+# Crate dependencies (also available during testing)
+[dependencies]
+
+# Dependencies used for testing
+[dev-dependencies]
+
+# Dependencies used for the `build.rs` / "build script" application
+[build-dependencies]

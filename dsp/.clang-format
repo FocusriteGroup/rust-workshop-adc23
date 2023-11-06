@@ -1,0 +1,10 @@
+---
+Language: Cpp
+BasedOnStyle: Google
+AccessModifierOffset: -2
+IndentWidth: 4
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: false
+PointerAlignment: Left
+QualifierAlignment: Left
+SpaceAfterTemplateKeyword: false

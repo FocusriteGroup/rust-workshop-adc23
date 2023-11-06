@@ -1,0 +1,13 @@
+.DS_Store
+Cargo.lock
+
+# build directories
+build/
+target/
+cmake-build-*/
+
+# IDEs & LSPs
+.idea/
+.vscode/
+.cache/
+compile_commands.json
