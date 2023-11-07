@@ -1,0 +1,9 @@
+{
+    "sampleRate": 48000,
+    "bufferSize": 2,
+    "waveform": "Sawtooth",
+    "frequency": 440,
+    "cutoff": 12000,
+    "attack": 0.01,
+    "release": 0.1
+}

@@ -1,28 +1,47 @@
 mod dsp;
+mod state;
 
 use clap::{Args, Parser};
 use dsp::Waveform;
+use serde::Deserialize;
+use std::path::PathBuf;
 
 #[derive(Parser)]
 enum Commands {
     /// Play the DSP from the audio output
-    Play(DspArguments),
+    Play {
+        #[arg(long, conflicts_with = "DspArguments")]
+        dsp_file: Option<PathBuf>,
+
+        #[command(flatten)]
+        dsp_args: DspArguments,
+    },
 
     /// Plot the DSP output to a graph
-    Plot(DspArguments),
+    Plot {
+        #[arg(long, conflicts_with = "DspArguments")]
+        dsp_file: Option<PathBuf>,
+
+        #[command(flatten)]
+        dsp_args: DspArguments,
+    },
 
     /// Save a snapshot
     Snapshot {
         /// The file name of the snapshot
         file_name: String,
 
+        #[arg(long, conflicts_with = "DspArguments")]
+        dsp_file: Option<PathBuf>,
+
         #[command(flatten)]
         dsp_args: DspArguments,
     },
 }
 
-#[derive(Args, Debug)]
-struct DspArguments {
+#[derive(Args, Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct DspArguments {
     /// Sample rate to render with
     #[arg(long, short, default_value_t = 48_000)]
     sample_rate: usize,
@@ -68,19 +87,23 @@ fn render_dsp(args: &DspArguments) -> Vec<f32> {
 
 fn main() {
     match Commands::parse() {
-        Commands::Play(dsp_args) => {
-            let buffer = render_dsp(&dsp_args);
+        Commands::Play { dsp_file, dsp_args } => {
+            let args = dsp_file.map_or(dsp_args, state::load);
+            let buffer = render_dsp(&args);
             println!("{buffer:#?}");
         }
-        Commands::Plot(dsp_args) => {
-            let buffer = render_dsp(&dsp_args);
+        Commands::Plot { dsp_file, dsp_args } => {
+            let args = dsp_file.map_or(dsp_args, state::load);
+            let buffer = render_dsp(&args);
             println!("{buffer:#?}");
         }
         Commands::Snapshot {
             file_name,
+            dsp_file,
             dsp_args,
         } => {
-            let buffer = render_dsp(&dsp_args);
+            let args = dsp_file.map_or(dsp_args, state::load);
+            let buffer = render_dsp(&args);
             println!("{buffer:#?}");
             println!("Saving snapshot to: {file_name}");
         }

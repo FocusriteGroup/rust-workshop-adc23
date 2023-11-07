@@ -1,4 +1,5 @@
 use clap::ValueEnum;
+use serde::Deserialize;
 
 mod ffi {
     #![allow(non_upper_case_globals)]
@@ -8,7 +9,7 @@ mod ffi {
     include!(concat!(env!("OUT_DIR"), "/", env!("DSP_BINDINGS")));
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq, ValueEnum)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, ValueEnum, Deserialize)]
 pub enum Waveform {
     Sine = ffi::Waveform_WAVEFORM_SINE as isize,
     Sawtooth = ffi::Waveform_WAVEFORM_SAWTOOTH as isize,
