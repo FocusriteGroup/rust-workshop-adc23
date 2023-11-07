@@ -1,4 +1,5 @@
 mod dsp;
+mod snapshot;
 
 use clap::{Args, Parser};
 use dsp::Waveform;
@@ -81,8 +82,7 @@ fn main() {
             dsp_args,
         } => {
             let buffer = render_dsp(&dsp_args);
-            println!("{buffer:#?}");
-            println!("Saving snapshot to: {file_name}");
+            snapshot::save(&file_name, &dsp_args, &buffer);
         }
     }
 }
