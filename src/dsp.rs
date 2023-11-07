@@ -69,3 +69,42 @@ impl Dsp {
         unsafe { ffi::dsp_set_waveform(self.context, waveform as i32) };
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn db_to_linear(level_db: f32) -> f32 {
+        10.0_f32.powf(level_db / 20.0)
+    }
+
+    #[test]
+    fn low_output_before_trigger() {
+        let threshold = db_to_linear(-35.0);
+
+        const SAMPLE_RATE: u32 = 48_000;
+        const BUFFER_SIZE: usize = 1_024;
+        let mut output = [0.0; BUFFER_SIZE];
+
+        let mut dsp = Dsp::default();
+
+        todo!("Render the DSP into output");
+        todo!("Check every sample is below threshold");
+    }
+
+    #[test]
+    fn high_output_after_trigger() {
+        let threshold = db_to_linear(-12.0);
+
+        let mut dsp = Dsp::default();
+
+        const SAMPLE_RATE: u32 = 48_000;
+        const BUFFER_SIZE: usize = 1_024;
+        let mut output = [0.0; BUFFER_SIZE];
+
+        todo!("Trigger a note");
+        todo!("Render the DSP into output");
+        todo!("Find the sample with the highest absolute level");
+        todo!("Check the maximum level is above the threshold");
+    }
+}
