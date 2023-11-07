@@ -1,7 +1,10 @@
+mod audio;
 mod dsp;
 
 use clap::{Args, Parser};
 use dsp::Waveform;
+
+use crate::audio::play;
 
 #[derive(Parser)]
 enum Commands {
@@ -70,7 +73,7 @@ fn main() {
     match Commands::parse() {
         Commands::Play(dsp_args) => {
             let buffer = render_dsp(&dsp_args);
-            println!("{buffer:#?}");
+            play(&buffer, dsp_args.sample_rate);
         }
         Commands::Plot(dsp_args) => {
             let buffer = render_dsp(&dsp_args);

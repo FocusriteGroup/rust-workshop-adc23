@@ -16,6 +16,7 @@ license = "MIT OR Apache-2.0"
 # Crate dependencies (also available during testing)
 [dependencies]
 clap = { version = "4.4.7", features = ["derive"] }
+cpal = "0.15.2"
 
 # Dependencies used for testing
 [dev-dependencies]
