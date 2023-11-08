@@ -1,4 +1,5 @@
 use crate::DspArguments;
+use hound::{SampleFormat, WavSpec, WavWriter};
 
 /// # Snapshots 💾
 ///
@@ -13,5 +14,21 @@ use crate::DspArguments;
 /// - The sample rate is available from the `DspArguments` parameter.
 
 pub(crate) fn save(file_name: &str, dsp_args: &DspArguments, audio_buffer: &[f32]) {
-    todo!("Implement the functionality for saving the audio_buffer to a .wav file using hound")
+    let spec = WavSpec {
+        channels: 1,
+        sample_rate: dsp_args.sample_rate as u32,
+        bits_per_sample: 32,
+        sample_format: SampleFormat::Float,
+    };
+
+    let file_name = format!("{file_name}.wav");
+    let mut writer = WavWriter::create(file_name, spec).expect("failed to create a wav writer");
+
+    for sample in audio_buffer {
+        writer
+            .write_sample(*sample)
+            .expect("failed to write a sample to the file");
+    }
+
+    writer.finalize().expect("failed to update the wav header");
 }
