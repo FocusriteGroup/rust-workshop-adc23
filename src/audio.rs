@@ -36,10 +36,22 @@ pub fn play(audio_buffer: &[f32], sample_rate: usize) {
         panic!("Unsupported sample format");
     };
 
+    let audio_buffer = audio_buffer.to_vec();
+    let mut audio_buffer = audio_buffer.into_iter();
+    let channel_count = config.config().channels as usize;
+
     let stream = device
         .build_output_stream(
             &config.config(),
-            move |output: &mut [f32], _| todo!(),
+            move |output: &mut [f32], _| {
+                for frame in output.chunks_mut(channel_count) {
+                    let value = audio_buffer.next().unwrap_or_default();
+
+                    for sample in frame.iter_mut() {
+                        *sample = value;
+                    }
+                }
+            },
             |err| panic!("Error occurred on stream: {err}"),
             None,
         )
