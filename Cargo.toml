@@ -22,3 +22,5 @@ clap = { version = "4.4.7", features = ["derive"] }
 
 # Dependencies used for the `build.rs` / "build script" application
 [build-dependencies]
+bindgen = "0.69.1"
+cmake = "0.1.50"

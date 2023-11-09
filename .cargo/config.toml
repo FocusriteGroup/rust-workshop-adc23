@@ -1,0 +1,2 @@
+[env]
+DSP_BINDINGS = "dsp_bindings.rs"
