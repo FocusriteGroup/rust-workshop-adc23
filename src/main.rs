@@ -20,7 +20,9 @@ enum Commands {
 
 #[derive(Args, Debug)]
 struct DspArguments {
-    /// TODO: Add "buffer_size" as CLI argument here
+    /// Number of samples to render
+    #[arg(long, short, default_value_t = 128)]
+    buffer_size: usize,
 
     /// Frequency of the oscillator
     #[arg(long, short, default_value_t = 220.0)]
@@ -36,10 +38,15 @@ fn main() {
         Commands::Play(dsp_args) => {
             println!("{dsp_args:#?}");
         }
-        Commands::Snapshot { .. } => {
-            todo!("Print `file_name` and `dsp_args`");
+        Commands::Plot(dsp_args) => {
+            println!("{dsp_args:#?}");
         }
-        // "_" is the "catch all" case, like `default:` in a C/C++ switch statement,
-        _ => todo!("Handle the plot command"),
+        Commands::Snapshot {
+            file_name,
+            dsp_args,
+        } => {
+            println!("{dsp_args:#?}");
+            println!("Saving snapshot to: {file_name}");
+        }
     }
 }
