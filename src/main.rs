@@ -57,11 +57,13 @@ fn render_dsp(args: &DspArguments) -> Vec<f32> {
 
     let mut dsp = dsp::Dsp::default();
     dsp.prepare(args.sample_rate as u32);
+    dsp.set_attack(args.attack);
+    dsp.set_release(args.release);
+    dsp.set_waveform(args.waveform);
+    dsp.trigger(args.frequency, args.cutoff);
+    dsp.render(&mut buffer);
 
-    todo!("1. set each DSP parameter");
-    todo!("2. trigger a note using the parameter values in `args`");
-    todo!("3. render the audio into `buffer`");
-    todo!("4. return `buffer`")
+    buffer
 }
 
 fn main() {
