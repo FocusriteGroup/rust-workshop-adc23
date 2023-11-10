@@ -1,4 +1,6 @@
 mod dsp;
+mod fft;
+mod plot;
 
 use clap::{Args, Parser};
 use dsp::Waveform;
@@ -74,7 +76,7 @@ fn main() {
         }
         Commands::Plot(dsp_args) => {
             let buffer = render_dsp(&dsp_args);
-            println!("{buffer:#?}");
+            plot::generate(&buffer, dsp_args.sample_rate);
         }
         Commands::Snapshot {
             file_name,
