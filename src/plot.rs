@@ -1,9 +1,10 @@
-use plotly::{Plot, Scatter};
+use crate::fft::Fft;
+use plotly::{
+    layout::{GridPattern, Layout, LayoutGrid},
+    Plot, Scatter,
+};
 
-// The `_` prefix on `_sample_rate` tells the compiler
-// that we are ignored the unused variable, similar to
-// a void-cast in C/C++
-pub fn generate(audio_buffer: &[f32], _sample_rate: usize) {
+pub fn generate(audio_buffer: &[f32], sample_rate: usize) {
     let mut plot = Plot::new();
 
     let time_trace = Scatter::new((0..audio_buffer.len()).collect(), audio_buffer.to_vec())
@@ -12,23 +13,20 @@ pub fn generate(audio_buffer: &[f32], _sample_rate: usize) {
         .y_axis("y1");
     plot.add_trace(time_trace);
 
-    todo!("1. Generate the FFT using `Fft::process`");
-    todo!("2. Create the FFT trace and add it to the plot");
-    todo!("3. Create a layout with 2 rows and 1 column");
-    // hint: have a look at the Plotly recipes here
-    // https://igiagkiozis.github.io/plotly/content/recipes/subplots/subplots.html
+    let fft_result = Fft::process(audio_buffer, sample_rate as u32);
+    let freq_trace = Scatter::new(fft_result.frequencies, fft_result.magnitudes)
+        .name("freqz")
+        .x_axis("x2")
+        .y_axis("y2");
+    plot.add_trace(freq_trace);
+
+    let layout = Layout::new().grid(
+        LayoutGrid::new()
+            .rows(2)
+            .columns(1)
+            .pattern(GridPattern::Independent),
+    );
+    plot.set_layout(layout);
 
     plot.show();
 }
-
-// Note to WSL users:
-//
-// you might encounter and issue with
-//
-//      plot.show();
-//
-// in that case, try running this:
-//
-//      plot.write_html("dsp.html");
-//
-// then open "dsp.html" file in your browser
