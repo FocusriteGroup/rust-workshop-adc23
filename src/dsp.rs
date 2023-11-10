@@ -88,8 +88,10 @@ mod tests {
 
         let mut dsp = Dsp::default();
 
-        todo!("Render the DSP into output");
-        todo!("Check every sample is below threshold");
+        dsp.prepare(SAMPLE_RATE);
+        dsp.render(&mut output);
+
+        assert!(output.iter().all(|value| value.abs() < threshold));
     }
 
     #[test]
@@ -102,9 +104,15 @@ mod tests {
         const BUFFER_SIZE: usize = 1_024;
         let mut output = [0.0; BUFFER_SIZE];
 
-        todo!("Trigger a note");
-        todo!("Render the DSP into output");
-        todo!("Find the sample with the highest absolute level");
-        todo!("Check the maximum level is above the threshold");
+        dsp.prepare(SAMPLE_RATE);
+        dsp.trigger(440.0, (SAMPLE_RATE / 4) as f32);
+        dsp.set_waveform(Waveform::Sawtooth);
+        dsp.render(&mut output);
+
+        let max_value = output
+            .iter()
+            .fold(0.0, |max, &x| if x.abs() > max { x.abs() } else { max });
+
+        assert!(max_value > threshold);
     }
 }
