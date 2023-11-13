@@ -5,7 +5,7 @@ mod ffi {
     #![allow(non_camel_case_types)]
     #![allow(non_snake_case)]
 
-    include!(concat!(env!("OUT_DIR"), "/", env!("DSP_BINDINGS")));
+    include!("dsp_bindings.rs");
 }
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, ValueEnum)]
